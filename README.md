@@ -34,6 +34,12 @@ npm start
 http://localhost:3000
 ```
 
+### Windows shortcut
+
+Double-click `start-savant.bat` to install dependencies if needed, start the app, and open `http://localhost:3000` in your default browser.
+
+Keep the terminal window open while using the app. Close the terminal or press `Ctrl+C` to stop the server.
+
 ## Notes
 
 - The frontend now calls `/api/chat` instead of calling OpenAI directly.
