@@ -168,36 +168,47 @@ function switchSheet(name) {
 }
 
 async function callAI(prompt) {
-    const key = document.getElementById('apiKey').value;
-
-    if(!key) throw 'API Key required.';
-
     const context = {
         headers: state.headers,
         sample: state.data.slice(0, 2)
     };
 
-    const sysPrompt = `Return ONLY JSON. Headers: [${context.headers.join(', ')}]. Sample: ${JSON.stringify(context.sample)}. Structure: {"intent":"Brief Task Name","formula":"=...","explanation":"...","tips":"..."}`;
-
-    const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    const res = await fetch('/api/chat', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${key}`
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            model: 'gpt-4o-mini',
-            messages: [
-                { role: 'system', content: sysPrompt },
-                { role: 'user', content: prompt }
-            ],
-            response_format: { type: 'json_object' }
+            prompt,
+            headers: context.headers,
+            sample: context.sample
         })
     });
 
-    const json = await res.json();
+    const text = await res.text();
+    let json;
+    try {
+        json = JSON.parse(text);
+    } catch (err) {
+        console.error('Failed to parse response as JSON:', text);
+        throw `无效响应: ${text || err.message}`;
+    }
 
-    return JSON.parse(json.choices[0].message.content);
+    if (!res.ok) {
+        const message = json?.error || json?.message || json?.status ? `Status ${json.status}: ${json.message}` : '请求失败。';
+        throw `API 错误: ${message}`;
+    }
+
+    if (!json || typeof json !== 'object') {
+        throw '后台返回数据格式不正确。';
+    }
+
+    return {
+        intent: json.intent || '',
+        formula: json.formula || '',
+        explanation: json.explanation || '',
+        tips: json.tips || ''
+    };
 }
 
 document.getElementById('fileInput').onchange = async (e) => {
@@ -236,6 +247,13 @@ document.getElementById('btnSend').onclick = async () => {
     }
     catch(e) {
         agentCard.remove();
+
+        UI.addMessage('ai', {
+            intent: '',
+            formula: '',
+            explanation: '请求失败，请检查服务器或网络连接。',
+            tips: typeof e === 'string' ? e : (e?.message || '未知错误')
+        });
     }
     finally {
         state.isProcessing = false;
