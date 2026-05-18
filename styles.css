@@ -311,6 +311,12 @@ input {
     color: white;
     font-weight: 600;
     cursor: pointer;
+    /* Prevent Chinese text from wrapping vertically */
+    white-space: nowrap;
+    min-width: 96px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .preview-pane {

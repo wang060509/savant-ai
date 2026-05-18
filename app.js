@@ -30,7 +30,7 @@ const UI = {
 
         container.innerHTML = html;
 
-        document.getElementById('rowCount').innerText = `${data.length.toLocaleString()} active records`;
+        document.getElementById('rowCount').innerText = `${data.length.toLocaleString()} 条记录`;
     },
 
     addMessage(role, content) {
@@ -49,20 +49,20 @@ const UI = {
             div.innerHTML = `
             <div class="ai-analysis-card">
 
-                <span class="ai-intent-tag">AI Analysis</span>
+                <span class="ai-intent-tag">AI 分析</span>
 
                 <div class="ai-section">
-                    <div class="ai-section-label">Intent</div>
+                    <div class="ai-section-label">任务理解</div>
                     <div class="ai-section-content">${intent}</div>
                 </div>
 
                 <div class="ai-section">
-                    <div class="ai-section-label">Formula</div>
+                    <div class="ai-section-label">公式</div>
 
                     <div class="formula-display">
                         <button class="copy-formula"
                             onclick="navigator.clipboard.writeText(this.nextElementSibling.innerText)">
-                            Copy Formula
+                            复制公式
                         </button>
 
                         <code>${formula}</code>
@@ -70,13 +70,13 @@ const UI = {
                 </div>
 
                 <div class="ai-section">
-                    <div class="ai-section-label">Explanation</div>
+                    <div class="ai-section-label">公式说明</div>
                     <div class="ai-section-content">${explanation}</div>
                 </div>
 
                 ${tips ? `
                 <div class="ai-section">
-                    <div class="ai-section-label">Suggestions</div>
+                    <div class="ai-section-label">使用建议</div>
                     <div class="ai-section-content">${tips}</div>
                 </div>
                 ` : ''}
@@ -98,28 +98,28 @@ const UI = {
         div.innerHTML = `
             <div class="ai-analysis-card" id="active-agent">
 
-                <span class="ai-intent-tag">AI Thinking</span>
+                <span class="ai-intent-tag">正在分析</span>
 
                 <div class="step-list">
 
                     <div class="step-item">
                         <span class="dot"></span>
-                        Analyzing sheet structure...
+                        正在分析表格结构...
                     </div>
 
                     <div class="step-item">
                         <span class="dot"></span>
-                        Understanding user intent...
+                        正在理解你的需求...
                     </div>
 
                     <div class="step-item">
                         <span class="dot"></span>
-                        Mapping spreadsheet semantics...
+                        正在匹配表格语义...
                     </div>
 
                     <div class="step-item">
                         <span class="dot"></span>
-                        Generating optimized Excel logic...
+                        正在生成 Excel 公式...
                     </div>
 
                 </div>
@@ -163,7 +163,7 @@ function switchSheet(name) {
 
     const colSelect = document.getElementById('columnSelect');
 
-    colSelect.innerHTML = '<option value="">Group by column...</option>' +
+    colSelect.innerHTML = '<option value="">选择拆分列...</option>' +
         state.headers.map(h => `<option value="${h}">${h}</option>`).join('');
 }
 
@@ -259,6 +259,17 @@ document.getElementById('btnSend').onclick = async () => {
         state.isProcessing = false;
     }
 };
+
+// Pressing Enter in the input should trigger the same action as clicking the Analyze button
+const _userInput = document.getElementById('userInput');
+_userInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        if (this.value.trim() && !state.isProcessing) {
+            document.getElementById('btnSend').click();
+        }
+    }
+});
 
 window.onload = () => {
     const demo = [

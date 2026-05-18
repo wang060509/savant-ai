@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Savant AI — AI Spreadsheet Workspace</title>
+    <title>Savant AI — AI 表格工作台</title>
 
     <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
@@ -20,11 +20,11 @@
 <aside class="sidebar">
     <div class="brand">
         <h1>Savant AI</h1>
-        <p>Intelligence for Spreadsheets</p>
+        <p>智能表格助手</p>
     </div>
 
     <div class="card-module">
-        <span class="section-label">Data Source</span>
+        <span class="section-label">数据源</span>
 
         <div class="drop-zone" id="dropZone">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -34,7 +34,7 @@
             </svg>
 
             <p style="font-size:14px;font-weight:600;">
-                Drop Excel or CSV
+                拖拽上传 Excel / CSV
             </p>
 
             <input type="file" id="fileInput" hidden accept=".xlsx,.xls,.csv">
@@ -46,27 +46,27 @@
     </div>
 
     <div class="card-module">
-        <span class="section-label">Context View</span>
+        <span class="section-label">当前工作表</span>
         <select id="sheetSelect"></select>
     </div>
 
     <div class="card-module">
-        <span class="section-label">Export Tools</span>
+        <span class="section-label">导出工具</span>
 
         <select id="columnSelect" style="margin-bottom:12px;">
-            <option value="">Group by column...</option>
+            <option value="">选择拆分列...</option>
         </select>
 
         <button class="btn-forest" id="btnSplit">
-            Generate Zip
+            生成 ZIP
         </button>
     </div>
 
     <div style="margin-top:auto;">
-        <span class="section-label">AI Provider</span>
+        <span class="section-label">AI 服务</span>
         <div style="display:flex;flex-direction:column;gap:6px;">
-            <span style="font-size:15px;font-weight:700;color:#17212b;">SiliconFlow</span>
-            <span style="font-size:13px;color:#525f6d;">Connected via local proxy</span>
+            <span style="font-size:15px;font-weight:700;color:#17212b;">硅基流动</span>
+            <span style="font-size:13px;color:#525f6d;">已通过本地代理连接</span>
         </div>
     </div>
 </aside>
@@ -74,23 +74,21 @@
 <main class="main-content">
 
     <header class="chat-header">
-        <h2>AI Spreadsheet Workspace</h2>
+        <h2>AI 表格工作台</h2>
 
         <div style="font-size:11px;color:#438a5e;font-weight:800;display:flex;align-items:center;gap:6px;">
             <span style="width:6px;height:6px;background:#438a5e;border-radius:50%;"></span>
-            AI ENGINE ONLINE
+            本地 AI 引擎已连接
         </div>
     </header>
 
     <div class="chat-messages" id="chatMessages">
 
         <div class="ai-analysis-card">
-            <span class="ai-intent-tag">AI Workspace Ready</span>
+            <span class="ai-intent-tag">AI 表格助手已就绪</span>
 
             <div class="ai-section-content">
-                Upload a spreadsheet and describe the logic you need.
-                I can generate formulas, analyze structure, explain spreadsheet semantics,
-                and help automate Excel workflows.
+                上传 Excel 或 CSV 文件，然后用中文描述你想完成的表格任务。我可以帮你生成公式、理解表格结构，并辅助完成常见办公处理。
             </div>
         </div>
 
@@ -98,8 +96,8 @@
 
     <div class="input-area">
         <div class="input-container">
-            <input type="text" id="userInput" placeholder="Describe the Excel logic you need...">
-            <button id="btnSend">Analyze</button>
+            <input type="text" id="userInput" placeholder="用中文描述你想完成的表格任务…">
+            <button id="btnSend">分析</button>
         </div>
     </div>
 
@@ -108,7 +106,7 @@
 <section class="preview-pane">
 
     <div class="preview-header">
-        <h3 id="activeSheetName">Data Preview</h3>
+        <h3 id="activeSheetName">数据预览</h3>
         <p id="rowCount"></p>
     </div>
 
